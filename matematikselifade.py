@@ -3,6 +3,7 @@ denklem = input("Kontrol etmek istediğiniz mateatiksel ifadeyi giriniz.")
 karakterler = list(denklem)
 print(karakterler)
 operatorler = ["+", "-", "*", "/"]
+parantes_isareti = ["(",")"]
 parantezSayaci = 0
 
 def parantez_kontrol(karakterler):
@@ -21,21 +22,44 @@ def parantez_kontrol(karakterler):
       parantezSayaci += 1
     elif karakter == ")":
       parantezSayaci -= 1
+    else :
+      parantezSayaci = 0
 
     if parantezSayaci < 0:
-      print("Bozuk")
       return False
 
   if parantezSayaci == 0:
     return True
-  else:
-    print("Bozuk")
-    return False
+  
+
+def karsilastir(dizi):
+  """Bir diziyi karşılaştırır ve True/False döndürür.
+
+  Args:
+    dizi: Karşılaştırılacak elemanları içeren dizi.
+    operator: Karşılaştırma operatörlerini içeren dizi.
+
+  Returns:
+    Karşılaştırma sonucu True veya False.
+  """
+  for i in range(1, len(dizi) - 1):
+    if len(dizi) == 1:
+      return True
+    elif dizi[i] in operatorler:
+      if dizi[i+1] not in operatorler:
+        return True
+      elif dizi[i+1] in parantes_isareti:
+        if dizi[i+2] not in operatorler:
+          return True
+      else:
+        return False
+    else:
+      return True
+  
 
 
-sonuc = parantez_kontrol(karakterler)
+parantez = parantez_kontrol(karakterler)
+operator_cakismasi = karsilastir(karakterler)
 
-if sonuc:
-  print("Dizi dengeli.")
-else:
-  print("Dizi dengesiz.")
+sonuc = [parantez,operator_cakismasi,True]
+print(all(sonuc))
