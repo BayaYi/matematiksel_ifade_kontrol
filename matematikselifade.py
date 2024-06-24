@@ -23,13 +23,15 @@ def parantez_kontrol(karakterler):
     elif karakter == ")":
       parantezSayaci -= 1
     else :
-      parantezSayaci = 0
+      parantezSayaci += 0
 
     if parantezSayaci < 0:
       return False
 
   if parantezSayaci == 0:
     return True
+  else :
+    return False
   
 
 def karsilastir(dizi):
@@ -56,10 +58,39 @@ def karsilastir(dizi):
     else:
       return True
   
+def ardArdaOperatorVarMi(parametreDizi):
+  """
+  Parametredeki dizide ard arda operatör olup olmadığını kontrol eder.
 
+  Parametreler:
+    parametreDizi: Kontrol edilecek öğeleri içeren bir dizi.
+    operatorler: Arandık operatörlerin bir listesi.
+
+  Dönüş değeri:
+    Ard arda operatör varsa True, yoksa False.
+  """
+
+  for i in range(len(parametreDizi) - 1):
+    if parametreDizi[i] in operatorler and parametreDizi[i+1] in operatorler:
+      return False
+  return True
+
+def tanimsizOge(dizi):
+  izinVerilenler = operatorler + parantes_isareti
+  for eleman in dizi:
+    if eleman not in izinVerilenler:
+      if eleman.isdigit():
+        return True
+    else :
+      return False
 
 parantez = parantez_kontrol(karakterler)
 operator_cakismasi = karsilastir(karakterler)
+operator_kontrol = ardArdaOperatorVarMi(karakterler)
+ayrik_oge = tanimsizOge(karakterler)
 
-sonuc = [parantez,operator_cakismasi,True]
-print(all(sonuc))
+sonuc = [parantez,operator_cakismasi,operator_kontrol,ayrik_oge]
+if all(sonuc) == True:
+  print("Matematiksel ifade doğrudur.")
+else:
+  print("Matematiksel ifade yanlıştır.")
